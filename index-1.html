@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jameer — AI Engineer & Research Storyteller</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14161c;
+    --ink-2:#1b1e26;
+    --paper:#f1ead9;
+    --paper-dim:#e7dfc9;
+    --marigold:#e0a639;
+    --marigold-dim:#c99230;
+    --stamp:#b23a2e;
+    --slate:#9ca3af;
+    --slate-2:#6b7280;
+    --line: rgba(241,234,217,0.14);
+    --line-strong: rgba(241,234,217,0.28);
+    --serif: 'Source Serif 4', serif;
+    --sans: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--sans);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--marigold); color:var(--ink); }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- texture ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+    opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(20,22,28,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .brand{
+    font-family:var(--mono);
+    font-size:14px;
+    letter-spacing:0.06em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .tab{
+    background:var(--marigold);
+    color:var(--ink);
+    padding:3px 7px;
+    font-weight:700;
+    border-radius:2px;
+  }
+  nav ul{
+    display:flex; gap:34px; list-style:none;
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+  }
+  nav ul li a{
+    color:var(--slate);
+    transition:color .25s ease;
+    position:relative;
+    padding-bottom:3px;
+  }
+  nav ul li a:hover, nav ul li a:focus-visible{ color:var(--paper); }
+  nav ul li a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
+    background:var(--marigold); transition:width .25s ease;
+  }
+  nav ul li a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:172px 0 96px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:100%;
+    background:
+      radial-gradient(ellipse 700px 420px at 82% 10%, rgba(224,166,57,0.10), transparent 60%);
+    pointer-events:none;
+  }
+  .file-meta{
+    display:flex; flex-wrap:wrap; gap:10px 28px;
+    font-family:var(--mono); font-size:12px; color:var(--slate);
+    letter-spacing:0.04em;
+    border:1px solid var(--line-strong);
+    padding:10px 18px;
+    width:fit-content;
+    margin-bottom:38px;
+    background:rgba(241,234,217,0.03);
+  }
+  .file-meta span b{ color:var(--paper); font-weight:600; }
+  .status-dot{
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:#6fbf73; margin-right:6px;
+    box-shadow:0 0 0 3px rgba(111,191,115,0.18);
+  }
+
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:700;
+    font-size:clamp(52px, 8vw, 104px);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--marigold);
+    font-weight:500;
+  }
+
+  .role-line{
+    margin-top:26px;
+    font-family:var(--mono);
+    font-size:16px;
+    color:var(--slate);
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .role-line .cursor{
+    color:var(--marigold);
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero-copy{
+    margin-top:30px;
+    max-width:560px;
+    font-size:17px;
+    color:#d7d2c4;
+  }
+
+  .hero-actions{
+    margin-top:44px;
+    display:flex; gap:16px; flex-wrap:wrap;
+    align-items:center;
+  }
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:14px 26px;
+    border:1px solid var(--paper);
+    background:transparent;
+    color:var(--paper);
+    cursor:pointer;
+    transition: all .25s ease;
+    text-transform:uppercase;
+  }
+  .btn:hover, .btn:focus-visible{ background:var(--paper); color:var(--ink); }
+  .btn.primary{
+    background:var(--marigold);
+    border-color:var(--marigold);
+    color:var(--ink);
+    font-weight:600;
+  }
+  .btn.primary:hover{ background:var(--marigold-dim); border-color:var(--marigold-dim); color:var(--ink); }
+
+  .stamp{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--stamp);
+    border:1.5px solid var(--stamp);
+    padding:6px 12px;
+    transform:rotate(-4deg);
+    text-transform:uppercase;
+    opacity:0.85;
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding:110px 0; border-bottom:1px solid var(--line); }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--marigold);
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:""; width:24px; height:1px; background:var(--marigold);
+  }
+  .section-title{
+    font-family:var(--serif);
+    font-size:clamp(32px, 4vw, 46px);
+    font-weight:700;
+    max-width:640px;
+    letter-spacing:-0.01em;
+  }
+  .section-sub{
+    margin-top:16px;
+    max-width:560px;
+    color:var(--slate);
+    font-size:15.5px;
+  }
+
+  .reveal{
+    opacity:0; transform:translateY(24px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:64px;
+    align-items:start;
+  }
+  .about-card{
+    border:1px solid var(--line-strong);
+    padding:30px;
+    background:rgba(241,234,217,0.025);
+    position:relative;
+  }
+  .about-card::before{
+    content:"FIELD NOTE";
+    position:absolute; top:-11px; left:24px;
+    background:var(--ink);
+    padding:0 10px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    color:var(--slate);
+  }
+  .about-card p{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.65;
+    color:#e6e0d2;
+  }
+  .about-card p + p{ margin-top:18px; }
+  .about-card .sig{
+    margin-top:26px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--slate-2);
+    letter-spacing:0.04em;
+  }
+
+  .focus-list{ display:flex; flex-direction:column; }
+  .focus-item{
+    display:flex; align-items:center; gap:18px;
+    padding:16px 4px;
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:14px;
+  }
+  .focus-item:first-child{ border-top:1px solid var(--line); }
+  .focus-item .num{ color:var(--marigold-dim); width:28px; }
+  .focus-item .label{ color:var(--paper); flex:1; }
+  .focus-item .tick{ color:#6fbf73; font-size:13px; }
+
+  /* ---------- skills ---------- */
+  .skill-groups{
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+  }
+  .skill-group{
+    background:var(--ink);
+    padding:32px 28px;
+  }
+  .skill-group h3{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--marigold);
+    margin-bottom:22px;
+    padding-bottom:14px;
+    border-bottom:1px dashed var(--line-strong);
+  }
+  .skill-group ul{ list-style:none; display:flex; flex-direction:column; gap:13px; }
+  .skill-group li{
+    font-size:15px;
+    color:#dcd7c9;
+    display:flex; align-items:center; gap:10px;
+  }
+  .skill-group li::before{
+    content:"—";
+    color:var(--slate-2);
+  }
+
+  /* ---------- projects ---------- */
+  .project-index{
+    margin-top:56px;
+    display:flex; flex-direction:column;
+  }
+  .project{
+    display:grid;
+    grid-template-columns:120px 1fr 240px;
+    gap:32px;
+    padding:34px 0;
+    border-top:1px solid var(--line);
+    cursor:default;
+    transition: background .3s ease, padding-left .3s ease;
+  }
+  .project:last-child{ border-bottom:1px solid var(--line); }
+  .project:hover{ background:rgba(224,166,57,0.035); padding-left:10px; }
+  .project .code{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--marigold-dim);
+    letter-spacing:0.05em;
+    padding-top:4px;
+  }
+  .project .code .n{ display:block; color:var(--slate-2); font-size:11px; margin-top:4px; }
+  .project h3{
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:600;
+    margin-bottom:10px;
+    color:var(--paper);
+  }
+  .project p{
+    color:var(--slate);
+    font-size:14.5px;
+    max-width:520px;
+    line-height:1.6;
+  }
+  .project .tags{
+    display:flex; flex-wrap:wrap; gap:8px;
+    align-content:flex-start;
+  }
+  .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.03em;
+    color:var(--slate);
+    border:1px solid var(--line-strong);
+    padding:5px 10px;
+    white-space:nowrap;
+    height:fit-content;
+  }
+
+  /* ---------- learning / goals ---------- */
+  .two-col{
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+  }
+  .ledger-title{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--slate);
+    margin-bottom:20px;
+    display:flex; justify-content:space-between;
+    border-bottom:1px solid var(--line-strong);
+    padding-bottom:12px;
+  }
+  .ledger-row{
+    display:flex; align-items:center; gap:16px;
+    padding:14px 0;
+    border-bottom:1px dashed var(--line);
+    font-size:15px;
+  }
+  .ledger-row .box{
+    width:16px; height:16px;
+    border:1.5px solid var(--marigold-dim);
+    flex-shrink:0;
+    position:relative;
+  }
+  .ledger-row.active .box::after{
+    content:"";
+    position:absolute; inset:3px;
+    background:var(--marigold);
+  }
+  .ledger-row .goal-box{
+    width:16px; height:16px;
+    border:1.5px solid var(--slate-2);
+    flex-shrink:0;
+    position:relative;
+  }
+  .ledger-row span{ color:#d7d2c4; }
+
+  /* ---------- connect / footer ---------- */
+  footer{
+    padding:100px 0 50px;
+  }
+  .connect-top{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    flex-wrap:wrap; gap:40px;
+    margin-bottom:70px;
+  }
+  .connect-top h2{
+    font-family:var(--serif);
+    font-size:clamp(36px,5vw,58px);
+    max-width:600px;
+    line-height:1.08;
+  }
+  .connect-top h2 em{ color:var(--marigold); font-style:italic; font-weight:500; }
+  .connect-links{
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .connect-links a{
+    font-family:var(--mono);
+    font-size:14px;
+    padding:12px 0 12px 0;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    width:280px;
+    color:var(--paper);
+    transition:color .25s ease, gap .25s ease;
+  }
+  .connect-links a:hover, .connect-links a:focus-visible{ color:var(--marigold); }
+  .connect-links a .arrow{ color:var(--slate-2); transition:transform .25s ease; }
+  .connect-links a:hover .arrow{ transform:translateX(4px); color:var(--marigold); }
+
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--slate-2);
+    letter-spacing:0.03em;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 880px){
+    nav ul{ display:none; }
+    .about-grid{ grid-template-columns:1fr; gap:40px; }
+    .skill-groups{ grid-template-columns:1fr; }
+    .two-col{ grid-template-columns:1fr; gap:48px; }
+    .project{ grid-template-columns:1fr; gap:14px; }
+    .project .tags{ margin-top:6px; }
+    .connect-links a{ width:100%; }
+    .hero{ padding-top:150px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header>
+  <div class="navbar">
+    <div class="brand"><span class="tab">J</span> JAMEER — AI FILE</div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Toolkit</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#learning">Learning</a></li>
+        <li><a href="#connect">Connect</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="file-meta">
+      <span><b>SUBJECT:</b> Jameer</span>
+      <span><b>ROLE:</b> AI Engineer</span>
+      <span><span class="status-dot"></span><b>STATUS:</b> Active — building</span>
+      <span><b>ORIGIN:</b> UPSC preparation</span>
+    </div>
+
+    <h1>AI, applied<br>with <em>structure.</em></h1>
+
+    <div class="role-line">
+      <span id="roleText">Prompt Engineer</span><span class="cursor">|</span>
+    </div>
+
+    <p class="hero-copy">
+      I build practical AI projects with Claude, ChatGPT and Gemini — cinematic explainers, research-driven awareness videos, and tools that turn dense subjects into things people actually finish learning. My UPSC background taught me to structure a hard problem before I touch a single prompt.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn primary">Open case files</a>
+      <a href="#connect" class="btn">Get in touch</a>
+      <span class="stamp">50 projects — in progress</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow">Dossier — 01</div>
+    <h2 class="section-title reveal">About</h2>
+
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <p>I started through the AI Creator Fellowship, working through prompt engineering, AI content production, workflow automation, and portfolio design.</p>
+        <p>Before that, I was preparing for the UPSC civil services exam — years spent breaking enormous subjects into structured, examinable pieces. That habit carried straight into AI work: research first, story second, prompt last.</p>
+        <p>Today I use AI to make educational content, design digital products, and ship real, working tools — not just demos.</p>
+        <div class="sig">— J., ongoing</div>
+      </div>
+
+      <div class="focus-list reveal">
+        <div class="focus-item"><span class="num">01</span><span class="label">AI Engineering</span><span class="tick">●</span></div>
+        <div class="focus-item"><span class="num">02</span><span class="label">Prompt Engineering</span><span class="tick">●</span></div>
+        <div class="focus-item"><span class="num">03</span><span class="label">AI Automation</span><span class="tick">●</span></div>
+        <div class="focus-item"><span class="num">04</span><span class="label">AI-powered Educational Tools</span><span class="tick">●</span></div>
+        <div class="focus-item"><span class="num">05</span><span class="label">Open Source Learning</span><span class="tick">●</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow">Dossier — 02</div>
+    <h2 class="section-title reveal">Toolkit</h2>
+    <p class="section-sub reveal">The models, languages, and disciplines I reach for most.</p>
+
+    <div class="skill-groups reveal">
+      <div class="skill-group">
+        <h3>AI Models</h3>
+        <ul>
+          <li>Claude AI</li>
+          <li>ChatGPT</li>
+          <li>Google Gemini</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <ul>
+          <li>GitHub</li>
+          <li>HTML / CSS / JS</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>AI Craft</h3>
+        <ul>
+          <li>Prompt Engineering</li>
+          <li>AI Workflow Design</li>
+          <li>AI Image Generation</li>
+          <li>AI Video Prompting</li>
+          <li>AI Content Creation</li>
+          <li>AI Research</li>
+          <li>AI Product Design</li>
+          <li>Portfolio Development</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow">Dossier — 03</div>
+    <h2 class="section-title reveal">Featured projects</h2>
+    <p class="section-sub reveal">Eight cases, each opened with research first and a prompt second.</p>
+
+    <div class="project-index">
+
+      <div class="project reveal">
+        <div class="code">RS—01<span class="n">VIDEO</span></div>
+        <div>
+          <h3>Ram Setu: an ancient bridge, explained</h3>
+          <p>A cinematic AI-generated video unpacking the history, geography, and scientific debate behind Ram Setu, built on layered historical and geographical research.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Claude AI</span>
+          <span class="tag">Google Gemini</span>
+          <span class="tag">AI Video</span>
+          <span class="tag">Storytelling</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">ORN—02<span class="n">VIDEO</span></div>
+        <div>
+          <h3>The ORN water-logging tragedy</h3>
+          <p>An awareness video reconstructing the Old Rajinder Nagar water-logging tragedy for UPSC aspirants — realistic visuals paired with a carefully structured, research-based narrative.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">AI Visuals</span>
+          <span class="tag">Research</span>
+          <span class="tag">Social Awareness</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">THN—03<span class="n">DESIGN</span></div>
+        <div>
+          <h3>Thumbnail design for AI content</h3>
+          <p>High-CTR thumbnails for entertainment and AI content, tuned for YouTube and X with strong visual storytelling and clean composition.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Design</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">IMG—04<span class="n">COLLECTION</span></div>
+        <div>
+          <h3>AI image generation collection</h3>
+          <p>Ultra-realistic AI images spanning advertisement concepts, educational illustrations, posters, and social campaigns.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Image Generation</span>
+          <span class="tag">Advertising</span>
+          <span class="tag">Education</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">WEB—05<span class="n">SITE</span></div>
+        <div>
+          <h3>This portfolio</h3>
+          <p>A modern, responsive portfolio built with ChatGPT and Claude AI, hosted on GitHub Pages — dark theme, smooth animation, mobile-first.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">GitHub</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">PMT—06<span class="n">LIBRARY</span></div>
+        <div>
+          <h3>AI prompt collection</h3>
+          <p>A curated, reusable set of prompts for image generation, video generation, research, and everyday productivity.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Templates</span>
+          <span class="tag">Reusable</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">ADV—07<span class="n">CONCEPT</span></div>
+        <div>
+          <h3>Advertisement recreation</h3>
+          <p>Realistic AI-generated ad concepts inspired by real newspaper campaigns, rebuilt through careful prompt engineering.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Advertising</span>
+          <span class="tag">Prompt Engineering</span>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="code">EDU—08<span class="n">CONTENT</span></div>
+        <div>
+          <h3>Educational AI content</h3>
+          <p>AI-generated visuals, scripts, and learning resources across geography, history, and UPSC preparation.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Geography</span>
+          <span class="tag">History</span>
+          <span class="tag">UPSC</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="learning">
+  <div class="wrap">
+    <div class="eyebrow">Dossier — 04</div>
+    <h2 class="section-title reveal">Open threads</h2>
+
+    <div class="two-col">
+      <div class="reveal">
+        <div class="ledger-title"><span>Currently learning</span><span>In progress</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>AI Agents</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>AI Engineering</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>GitHub projects</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>Web development</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>Claude AI development</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>Open source contribution</span></div>
+        <div class="ledger-row active"><div class="box"></div><span>AI automation</span></div>
+      </div>
+
+      <div class="reveal">
+        <div class="ledger-title"><span>Current goals</span><span>Target</span></div>
+        <div class="ledger-row"><div class="goal-box"></div><span>Build 50+ AI projects</span></div>
+        <div class="ledger-row"><div class="goal-box"></div><span>Share AI learnings publicly</span></div>
+        <div class="ledger-row"><div class="goal-box"></div><span>Contribute to open source</span></div>
+        <div class="ledger-row"><div class="goal-box"></div><span>Become a professional AI engineer</span></div>
+        <div class="ledger-row"><div class="goal-box"></div><span>Create AI tools for education</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="connect">
+  <div class="wrap">
+    <div class="connect-top">
+      <h2 class="reveal">Let's build something <em>worth learning from.</em></h2>
+      <div class="connect-links reveal">
+        <a href="#" target="_blank" rel="noopener">LinkedIn <span class="arrow">→</span></a>
+        <a href="#" target="_blank" rel="noopener">X / Twitter <span class="arrow">→</span></a>
+        <a href="mailto:hello@example.com">Email <span class="arrow">→</span></a>
+        <a href="#" target="_blank" rel="noopener">Portfolio site <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>"Every project is another step toward becoming a better AI Engineer."</span>
+      <span>© 2026 Jameer — File remains open</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // rotating role text
+  const roles = ["Prompt Engineer", "AI Creator", "UPSC Aspirant", "Educational Storyteller"];
+  const roleEl = document.getElementById('roleText');
+  let ri = 0;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function typeRole(){
+    if(prefersReduced){ roleEl.textContent = roles[0]; return; }
+    ri = (ri + 1) % roles.length;
+    const word = roles[ri];
+    let i = 0;
+    roleEl.textContent = "";
+    const type = setInterval(() => {
+      roleEl.textContent = word.slice(0, i+1);
+      i++;
+      if(i === word.length){
+        clearInterval(type);
+        setTimeout(typeRole, 1800);
+      }
+    }, 45);
+  }
+  if(!prefersReduced){ setTimeout(typeRole, 2600); }
+
+  // scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
